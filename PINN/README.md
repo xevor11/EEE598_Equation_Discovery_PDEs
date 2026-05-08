@@ -1,4 +1,4 @@
-# EQDiscovery — Colab-Compatible PINN-SR PDE Discovery
+# EQDiscovery — PINN-SR PDE Discovery
 
 ## Overview
 
