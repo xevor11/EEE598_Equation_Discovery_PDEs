@@ -550,6 +550,8 @@ Chen, Zhao, Yang Liu, and Hao Sun.
 
 arXiv preprint arXiv:2005.03448 (2020).
 
+https://github.com/ZhaoChenCivilSciML/EQDiscovery-1
+
 ---
 
 ## PDE-FIND
@@ -559,6 +561,8 @@ Rudy, Samuel H., Steven L. Brunton, Joshua L. Proctor, and J. Nathan Kutz.
 *Data-driven discovery of partial differential equations.*
 
 Science Advances 3, no. 4 (2017): e1602614.
+
+https://github.com/zihanzhou2002/Data-Driven-PDE/tree/main
 
 ---
 
