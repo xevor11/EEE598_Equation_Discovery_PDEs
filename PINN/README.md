@@ -4,7 +4,7 @@
 
 This project is a modified and modernized implementation of the **EQDiscovery** source code associated with the paper:
 
-> Zhao Chen, Yang Liu, and Hao Sun, “Physics-informed learning of governing equations from scarce data,” arXiv preprint arXiv:2005.03448, 2020.
+> Zhao Chen, Yang Liu, and Hao Sun, “Physics-informed learning of governing equations from scarce data,” arXiv preprint arXiv:2005.03448, 2020
 
 The original repository demonstrates how **physics-informed deep learning** can be used to discover governing partial differential equations (PDEs) from scarce and noisy spatiotemporal data. The method combines:
 
@@ -14,9 +14,9 @@ The original repository demonstrates how **physics-informed deep learning** can 
 - STRidge coefficient selection
 - Symbolic PDE discovery
 
-The goal is to approximate the unknown solution field \(u(x,t)\), compute derivatives such as \(u_t\), \(u_x\), and \(u_{xx}\), and identify the sparse PDE structure that best explains the observed data.
+The goal is to approximate the unknown solution field \(u(x,t)\), compute derivatives such as \(u_t\), \(u_x\), and \(u_{xx}\), and identify the sparse PDE structure that best explains the observed data
 
-This modified version focuses on running the Burgers equation discovery experiment in a modern Google Colab / Python 3.12 environment.
+This modified version focuses on running the Burgers equation discovery experiment in a modern Google Colab / Python 3.12 environment
 
 ---
 
@@ -51,7 +51,7 @@ The true sparse PDE structure contains two dominant terms:
 | `u*u_x` | nonlinear advection | `-1.0` |
 | `u_xx` | diffusion | `0.1` |
 
-The purpose of the model is to recover these terms and coefficients directly from the training data.
+The purpose of the model is to recover these terms and coefficients directly from the training data
 
 ---
 
@@ -127,7 +127,7 @@ The notebook expects the Burgers dataset file:
 burgers.mat
 ```
 
-Place this file in the current working directory of the Colab notebook.
+Place this file in the current working directory of the Colab notebook
 
 You can verify that it is available by running:
 
@@ -161,7 +161,7 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 ```
 
-This allows TensorFlow 1.x graph-style code to run inside a modern TensorFlow 2.x environment.
+This allows TensorFlow 1.x graph-style code to run inside a modern TensorFlow 2.x environment
 
 ---
 
@@ -231,7 +231,7 @@ Modern Matplotlib no longer supports this usage. It was replaced with:
 ax = fig.add_subplot(111, projection='3d')
 ```
 
-This change was applied to both the model prediction surface and the ground-truth surface plots.
+This change was applied to both the model prediction surface and the ground-truth surface plots
 
 ---
 
@@ -243,7 +243,7 @@ The original code used:
 tf.contrib.opt.ScipyOptimizerInterface
 ```
 
-This API was removed from TensorFlow and is not available even under `tensorflow.compat.v1`.
+This API was removed from TensorFlow and is not available even under `tensorflow.compat.v1`
 
 Because of this, the original L-BFGS-B optimizer was disabled in the Colab-compatible version. The modified workflow uses:
 
@@ -271,7 +271,7 @@ This is the largest methodological change from the original implementation
 
 ### Adama Optimizer Modification
 
-The Adam optimizer is used to train the neural network solution approximation.
+The Adam optimizer is used to train the neural network solution approximation
 
 The modified version uses:
 
@@ -296,7 +296,7 @@ The original style assignment:
 self.lambda1 = tf.assign(self.lambda1, tf.convert_to_tensor(lambda2, dtype=tf.float32))
 ```
 
-does not immediately update the TensorFlow variable in graph mode.
+does not immediately update the TensorFlow variable in graph mode
 
 In TensorFlow 1.x graph execution, an assignment operation must be explicitly executed using the session:
 
@@ -309,7 +309,7 @@ assign_op = tf.assign(
 self.sess.run(assign_op)
 ```
 
-This fix is essential. Without `self.sess.run(assign_op)`, the discovered PDE coefficients remain unchanged.
+This fix is essential. Without `self.sess.run(assign_op)`, the discovered PDE coefficients remain unchanged
 
 ---
 
@@ -321,7 +321,7 @@ The original STRidge implementation initialized coefficients from the current Te
 w = self.sess.run(self.lambda1)/Mreg
 ```
 
-Since `lambda1` starts at zero, STRidge could remain stuck at zero.
+Since `lambda1` starts at zero, STRidge could remain stuck at zero
 
 The modified version initializes STRidge using ridge regression:
 
@@ -349,7 +349,7 @@ if biginds != []:
     w[biginds] = np.linalg.lstsq(X[:, biginds], y)[0]
 ```
 
-This can fail with modern NumPy because `biginds` is a NumPy array.
+This can fail with modern NumPy because `biginds` is a NumPy array
 
 It was replaced with:
 
@@ -408,7 +408,7 @@ This reduced library made sparse PDE recovery significantly more stable
 
 ### Lambda Dimension Change
 
-Because the library was reduced from 16 terms to 6 terms, all coefficient arrays were updated.
+Because the library was reduced from 16 terms to 6 terms, all coefficient arrays were updated
 
 Original:
 
@@ -538,7 +538,7 @@ Runtime -> Change runtime type -> Hardware accelerator -> GPU
 
 ### Ground Truth Surface
 
-The ground-truth surface plot shows the exact Burgers solution from the dataset.
+The ground-truth surface plot shows the exact Burgers solution from the dataset
 
 Axes:
 
@@ -620,9 +620,9 @@ The modified framework successfully recovered the correct PDE structure, althoug
 
 ## Notes on Interpretation
 
-The current Colab-compatible implementation is not an exact reproduction of the original paper because the original L-BFGS-B optimization path using `tf.contrib` was removed.
+The current Colab-compatible implementation is not an exact reproduction of the original paper because the original L-BFGS-B optimization path using `tf.contrib` was removed
 
-Therefore, differences in recovered coefficients are expected.
+Therefore, differences in recovered coefficients are expected
 
 The most important result is that the sparse regression identifies the correct dominant terms:
 
@@ -655,13 +655,13 @@ Use `smt` instead:
 !pip install smt
 ```
 
-and replace `lhs` with the wrapper shown above.
+and replace `lhs` with the wrapper shown above
 
 ---
 
 ### Error: `No module named imp`
 
-This occurs because `pyDOE2` is incompatible with Python 3.12.
+This occurs because `pyDOE2` is incompatible with Python 3.12
 
 Use:
 
@@ -685,7 +685,7 @@ tf.set_random_seed(1234)
 
 ### Error: `module 'tensorflow.compat.v1' has no attribute 'contrib'`
 
-`tf.contrib` was removed.
+`tf.contrib` was removed
 
 Comment out or remove:
 
