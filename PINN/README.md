@@ -1,4 +1,4 @@
-# EQDiscovery — PINN-SR PDE Discovery
+# EQDiscovery — PINN PDE Discovery
 
 ## Overview
 
